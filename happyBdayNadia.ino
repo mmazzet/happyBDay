@@ -5,7 +5,7 @@ MKRIoTCarrier carrier;
 void setup() {
   // Initialize serial communication for debugging purposes
   Serial.begin(9600);
-
+  
   // Wait for the serial monitor to open
   while (!Serial);
 
@@ -36,20 +36,34 @@ void loop() {
   displayMessage("1");
   delay(1000); // Wait for 1 second
   
-  // Display "Happy" on one line and "Birthday!" on the next line
+  // Display "Buon Compleanno" on one line
   carrier.display.setTextSize(2); // Adjust text size for the message
   displayMessage("Buon Compleanno");
-  delay(2000);
+  delay(2000); // Wait for 2 seconds
+  
+  // Clear the screen before displaying "NADIA!"
+  carrier.display.fillScreen(ST77XX_BLACK);
+  
+  // Display "NADIA!" on the next line
   carrier.display.setCursor(0, carrier.display.height() / 2); // Set cursor to the middle of the screen
   displayMessage("NADIA!");
   
-  // Add a long delay to keep the message displayed
+  // Wait for 2 seconds before blinking all LEDs
+  delay(2000);
+
+  // Blink all LEDs 5 times
+  for (int i = 0; i < 5; i++) {
+    flashAllLeds();
+    delay(500); // Delay between each blink
+  }
+  
+  // Add a long delay to keep the lights displayed
   delay(5000); // Wait for 5 seconds before repeating the loop
 }
 
 void displayMessage(const char* message) {
   // Clear the screen
-  carrier.display.fillScreen(ST77XX_GREEN);
+  carrier.display.fillScreen(ST77XX_BLACK);
   
   // Get the width and height of the message to center it
   int16_t x1, y1;
@@ -67,4 +81,21 @@ void displayMessage(const char* message) {
   carrier.display.print(message);
   
   Serial.println(message); // For debugging purposes, output to Serial Monitor
+}
+
+void flashAllLeds() {
+  // Set all RGB LEDs to green color
+  for (int i = 0; i < carrier.leds.numPixels(); i++) {
+    carrier.leds.setPixelColor(i, carrier.leds.Color(0, 255, 0));
+  }
+  
+  carrier.leds.show(); // Update LEDs
+  
+  delay(100); // Delay before turning off
+  
+  // Turn off all RGB LEDs
+  carrier.leds.clear(); // Clear all RGB LEDs
+  carrier.leds.show(); // Update LEDs
+  
+  delay(100); // Delay before next blink
 }
