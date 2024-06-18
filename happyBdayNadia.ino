@@ -19,7 +19,7 @@ void setup() {
 
   // Clear the display initially
   carrier.display.fillScreen(ST77XX_BLACK);
-  carrier.display.setTextColor(ST77XX_WHITE);
+  carrier.display.setTextColor(ST77XX_MAGENTA);
 }
 
 void loop() {
@@ -49,7 +49,7 @@ void loop() {
 
 void displayMessage(const char* message) {
   // Clear the screen
-  carrier.display.fillScreen(ST77XX_BLACK);
+  carrier.display.fillScreen(ST77XX_GREEN);
   
   // Get the width and height of the message to center it
   int16_t x1, y1;
