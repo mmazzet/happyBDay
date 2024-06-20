@@ -2,6 +2,22 @@
 
 MKRIoTCarrier carrier;
 
+// Define the frequencies for each note in the "Happy Birthday" song
+int notes[] = {
+  262, 262, 294, 262, 349, 330,  // "Happy birthday to you"
+  262, 262, 294, 262, 392, 349,  // "Happy birthday to you"
+  262, 262, 523, 440, 349, 330, 294,  // "Happy birthday dear xx"
+  466, 466, 440, 349, 392, 349   // "Happy birthday to you"
+};
+
+// Define the durations (in milliseconds) for each note
+int durations[] = {
+  500, 250, 750, 750, 750, 1000,  // "Happy birthday to you"
+  500, 250, 750, 750, 750, 1000,  // "Happy birthday to you"
+  500, 250, 750, 750, 750, 750, 1000,  // "Happy birthday dear xx"
+  500, 250, 750, 750, 750, 1000   // "Happy birthday to you"
+};
+
 void setup() {
   // Initialize serial communication for debugging purposes
   Serial.begin(9600);
@@ -55,6 +71,11 @@ void loop() {
   for (int i = 0; i < 5; i++) {
     flashAllLeds();
     delay(500); // Delay between each blink
+  }
+
+    // Play the "Happy Birthday" song
+  for (int i = 0; i < sizeof(notes) / sizeof(notes[0]); i++) {
+    carrier.Buzzer.beep(notes[i], durations[i]);
   }
   
   // Add a long delay to keep the lights displayed
